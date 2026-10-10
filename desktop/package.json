@@ -1,0 +1,59 @@
+{
+  "name": "marginloom-desktop",
+  "version": "0.9.7",
+  "description": "Marginloom — an offline study notebook",
+  "author": "Marginloom",
+  "license": "UNLICENSED",
+  "main": "main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "package": "node ../scripts/build-desktop.mjs"
+  },
+  "devDependencies": {
+    "electron": "44.7.0",
+    "electron-builder": "26.15.3"
+  },
+  "build": {
+    "appId": "io.marginloom.desktop",
+    "productName": "Marginloom",
+    "directories": {
+      "output": "../release",
+      "buildResources": "../public"
+    },
+    "files": [
+      "main.cjs",
+      "preload.cjs",
+      "icon.ico",
+      "icon.png",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "../dist",
+        "to": "webapp",
+        "filter": [
+          "**/*",
+          "!sw.js",
+          "!workbox-*.js"
+        ]
+      }
+    ],
+    "win": {
+      "icon": "icon.ico",
+      "target": "nsis",
+      "signAndEditExecutable": true
+    },
+    "nsis": {
+      "artifactName": "Marginloom-Setup-${version}.exe",
+      "oneClick": false,
+      "perMachine": false,
+      "allowElevation": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Marginloom",
+      "runAfterFinish": true,
+      "deleteAppDataOnUninstall": false
+    }
+  }
+}
