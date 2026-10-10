@@ -1,0 +1,6 @@
+import {createRequire} from 'node:module';import assert from 'node:assert/strict';
+const require=createRequire('C:/Users/USER/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/package.json');const {chromium}=require('playwright');
+const browser=await chromium.launch({channel:'msedge',headless:true});
+try{const page=await browser.newPage({viewport:{width:1440,height:1000}});const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('http://127.0.0.1:4176/');await page.getByRole('heading',{name:'Study desk',exact:true}).waitFor();await page.getByRole('button',{name:'Try a sample chapter',exact:true}).first().click();await page.locator('.document-row').waitFor();
+for(const width of [1440,390]){await page.setViewportSize({width,height:950});for(const tab of ['Study desk','Practice']){await page.getByRole('button',{name:tab,exact:true}).first().click();assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${tab} overflow ${width}`);await page.screenshot({path:`.qa/navigation-${tab.replaceAll(' ','-')}-${width}.png`,fullPage:true});}}
+assert.deepEqual(errors,[]);console.log('PASS: desktop and mobile layouts, no overflow or runtime errors');}finally{await browser.close();}

@@ -1,0 +1,31 @@
+import {createRequire} from 'node:module';
+import assert from 'node:assert/strict';
+const require=createRequire('C:/Users/USER/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/package.json');
+const {chromium}=require('playwright');
+const context=await chromium.launchPersistentContext('.qa/ai-profile',{channel:'msedge',headless:true,viewport:{width:1440,height:1050}});
+const page=context.pages()[0]||await context.newPage();page.setDefaultTimeout(180000);
+const errors=[];page.on('pageerror',e=>errors.push(e.message));
+const nav=name=>page.locator('.sidebar').getByRole('button',{name,exact:true});
+try{
+ await page.goto('http://localhost:4173');
+ await page.evaluate(async()=>{for(const r of await navigator.serviceWorker.getRegistrations())await r.unregister();for(const k of await caches.keys())if(k.startsWith('workbox-precache'))await caches.delete(k);});
+ await page.goto('about:blank');await page.goto('http://localhost:4173');
+ await nav('Settings & offline setup').click();await page.getByRole('button',{name:'Local tutor is ready',exact:true}).waitFor();
+ await page.getByText('App files cached',{exact:true}).waitFor();await page.reload();await nav('Settings & offline setup').click();await page.getByRole('button',{name:'Local tutor is ready',exact:true}).waitFor();
+ await context.setOffline(true);await nav('Study desk').click();
+ await page.getByRole('button',{name:'Create a reviewer',exact:true}).click();
+ await page.getByRole('combobox',{name:'Reviewer material'}).selectOption('subject:biology');
+ await page.getByRole('button',{name:'Prepare reviewer',exact:true}).click();
+ await page.getByRole('button',{name:'Add optional local AI overview',exact:true}).click();
+ await page.getByText('AI overview added.',{exact:false}).waitFor();
+ const overview=await page.getByRole('textbox',{name:'Overview / your revision notes',exact:true}).inputValue();assert.ok(overview.length>40);console.log('Offline reviewer overview:',overview.slice(0,180));
+ await page.getByRole('button',{name:'Close study dialog',exact:true}).click();
+ await page.evaluate(async()=>{const r=indexedDB.open('offline-study-buddy');const db=await new Promise(resolve=>r.onsuccess=()=>resolve(r.result));const docs=await new Promise(resolve=>{const q=db.transaction('documents').objectStore('documents').getAll();q.onsuccess=()=>resolve(q.result);});const doc=docs.find(d=>d.name.includes('Photosynthesis'));const tx=db.transaction('settings','readwrite');tx.objectStore('settings').put({enabled:true,docIds:[doc.id],topics:{[doc.id]:['Chlorophyll']},pages:{},weakOnly:false},'examFocus');await new Promise(resolve=>tx.oncomplete=resolve);db.close();});
+ await context.setOffline(false);await page.reload();await nav('Settings & offline setup').click();await page.getByRole('button',{name:'Local tutor is ready',exact:true}).waitFor();await context.setOffline(true);
+ await nav('Practice').click();await page.getByRole('combobox',{name:'Study subject'}).selectOption('subject:biology');
+ await page.getByRole('button',{name:'Generate practice questions',exact:true}).click();await page.locator('.quiz-options button').first().waitFor();
+ await page.locator('.quiz-options button').filter({hasNotText:/chlorophyll/i}).first().click();await page.locator('.quiz-explanation').waitFor();assert.match(await page.locator('.quiz-explanation blockquote').innerText(),/chlorophyll/i);
+ await page.getByRole('button',{name:'Explain my mistake',exact:true}).click();
+ await page.getByRole('button',{name:'Explain with local AI',exact:true}).click();await page.locator('.mistake-explanation').waitFor();assert.ok((await page.locator('.mistake-explanation').innerText()).length>30);
+ assert.deepEqual(errors,[]);console.log('PASS: real cached local AI creates editable reviewer overview and mistake explanation with network disabled; topic-focused quiz evidence matches the selected concept.');
+}finally{await context.close();}

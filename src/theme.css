@@ -1,0 +1,78 @@
+/* Semantic night palette; fallback colors in component styles preserve light mode. */
+:root{color-scheme:light}
+:root[data-theme=dark]{
+  color-scheme:dark;
+  background:#17181d;color:#eeedf3;
+  --green:#356b55;
+  --theme-text:#eeedf3;
+  --theme-muted:#adaebb;
+  --theme-surface:#23242c;
+  --theme-surface-soft:#292a33;
+  --theme-surface-raised:#343540;
+  --theme-border:#42434f;
+  --theme-accent:#98d0b3;
+  --theme-shadow:#101116;
+  --theme-gold-text:#edc88d;
+  --theme-gold-surface:#3c3329;
+  --theme-error-text:#f0afa7;
+  --theme-violet:#c4b2f3;
+  --theme-violet-surface:#353044;
+}
+.theme-toggle{display:grid;place-items:center;flex-shrink:0;width:38px;height:38px;border:1px solid var(--line);border-radius:50%;background:transparent;color:var(--theme-text,#315c43)}
+.theme-toggle:hover{background:var(--theme-surface-soft,#e7ebdf)}
+.appearance-panel{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:20px 24px;margin-bottom:24px}
+.appearance-panel p{color:var(--theme-muted,#626e65);font-size:12px;margin-top:7px}
+.appearance-options{display:flex;gap:5px;padding:4px;border:1px solid var(--line);border-radius:8px;background:var(--theme-surface-soft,#f5f3ec)}
+.appearance-options button{display:flex;align-items:center;justify-content:center;gap:7px;min-height:38px;padding:8px 13px;background:transparent;border:1px solid transparent;border-radius:5px;color:var(--theme-muted,#626e65);font-size:12px}
+.appearance-options button.selected{background:var(--theme-surface-raised,#fffef9);border-color:var(--theme-border,#cdd3c3);color:var(--theme-text,#244436);font-weight:600}
+:root[data-theme=dark] .sidebar{background:#1d1e25}
+:root[data-theme=dark] .nav-item.active,:root[data-theme=dark] .mobile-nav button.active{color:#eeedf3}
+:root[data-theme=dark] .ai-badge.ready,:root[data-theme=dark] .green{color:#a7d9be}
+:root[data-theme=dark] .button:not(.secondary):not(.text-button):not(.light-button){border-color:#4b876c}
+:root[data-theme=dark] .button:not(.secondary):not(.text-button):not(.light-button):hover{background:#407d63}
+:root[data-theme=dark] .mobile-nav{background:#1d1e25f5}
+:root[data-theme=dark] .modal::backdrop{background:#090a11cc}
+:root[data-theme=dark] .lesson-graph svg path[stroke="#194d3d"]{stroke:#98d0b3}
+:root[data-theme=dark] .lesson-graph svg path[stroke="#b8c4ad"]{stroke:#696b7a}
+:root[data-theme=dark] .lesson-graph svg circle{fill:#edc88d}
+:root[data-theme=dark] ::selection{background:#635080;color:#fff}
+:root[data-theme=dark] input,:root[data-theme=dark] textarea{caret-color:#a7d9be}
+:root[data-theme=dark] select option{background:#292a33;color:#eeedf3}
+@media(max-width:760px){.topbar-actions{gap:9px}.theme-toggle{width:34px;height:34px}.appearance-panel{align-items:flex-start;flex-direction:column;padding:20px}.appearance-options{width:100%}.appearance-options button{flex:1;min-height:44px}}
+@media(max-width:420px){.connectivity{display:none}}
+@media print{:root[data-theme=dark]{background:white!important;color:#213b2d!important;--theme-text:#213b2d;--theme-muted:#52644b;--theme-border:#82966b}.theme-toggle,.appearance-panel{display:none!important}}
+
+:root[data-theme=dark] dialog{background:var(--theme-surface);color:var(--theme-text)}
+
+
+/* Charcoal foundation, quiet depth and distinct accents for each study path. */
+:root[data-theme=dark] body{background:#17181d}
+:root[data-theme=dark] .workspace{background:radial-gradient(ellipse 850px 430px at 82% 0%,#b29aeb0c,transparent 75%),#17181d}
+:root[data-theme=dark] .topbar{background:#17181deb;border-color:#30313b}
+:root[data-theme=dark] .panel,:root[data-theme=dark] .game-mode-card{border-color:#383944;box-shadow:0 8px 24px #08090e26}
+:root[data-theme=dark] .panel-header{background:#262730;border-color:#383944}
+:root[data-theme=dark] .nav-item.active{background:#34323f;box-shadow:inset 3px 0 #b5a2df}
+:root[data-theme=dark] .nav-item.active svg,:root[data-theme=dark] .mobile-nav button.active svg{color:#c4b2f3}
+:root[data-theme=dark] .mobile-nav button.active{background:#34323f;border-radius:10px}
+:root[data-theme=dark] .sidebar-reflection blockquote{color:#d5c9b8}
+:root[data-theme=dark] .sidebar-reflection>svg{color:#a9bd9c}
+:root[data-theme=dark] .desk-label,:root[data-theme=dark] .notebook-tab{color:#b7a8d1}
+:root[data-theme=dark] .chat-welcome{border-left-color:#b38a67}
+:root[data-theme=dark] .document-row.selected{background:#30313b}
+:root[data-theme=dark] .study-shortcuts button{background:linear-gradient(135deg,#292a33,#23242c);border-color:#3b3c48;box-shadow:0 4px 16px #090a1020;transition:border-color .18s,background .18s}
+:root[data-theme=dark] .study-shortcuts button>svg:first-child{box-sizing:content-box;padding:9px;border-radius:10px;background:#38303e;color:#d3b0cb}
+:root[data-theme=dark] .study-shortcuts button:nth-child(2)>svg:first-child{background:#303342;color:#b8b9ed}
+:root[data-theme=dark] .study-shortcuts button:nth-child(3)>svg:first-child{background:#2b3935;color:#a4d2bd}
+:root[data-theme=dark] .study-shortcuts button:nth-child(4)>svg:first-child{background:#3c332c;color:#e3bf96}
+:root[data-theme=dark] .study-shortcuts button:hover:not(:disabled){border-color:#a99ac8;background:#2c2d37}
+:root[data-theme=dark] .game-mode-card:nth-child(1){border-top:2px solid #bd9760}
+:root[data-theme=dark] .game-mode-card:nth-child(2){border-top:2px solid #9a89ce}
+:root[data-theme=dark] .game-mode-card:nth-child(3){border-top:2px solid #739fba}
+:root[data-theme=dark] .composer textarea,:root[data-theme=dark] .field-label input,:root[data-theme=dark] .field-label textarea{background:#1e1f27;border-color:#42434f}
+:root[data-theme=dark] .quiz-length button.selected,:root[data-theme=dark] .segmented button.selected{background:#383246;border-color:#9d88c5;color:#eee8fb}
+:root[data-theme=dark] .button:not(.secondary):not(.text-button):not(.light-button){color:#f8fbf9;box-shadow:0 3px 12px #07100a30}
+:root[data-theme=dark] .alert.success{background:#27342f;border-color:#3d5749;color:#c4e0cf}
+@media(max-width:480px){:root[data-theme=dark] .study-shortcuts button>svg:first-child{padding:6px;width:17px;height:17px}}
+@media(prefers-reduced-motion:reduce){:root[data-theme=dark] .study-shortcuts button{transition:none}}
+@media print{:root[data-theme=dark] body,:root[data-theme=dark] .workspace{background:white!important}}
+:root[data-theme=dark] .panel{border-radius:12px}:root[data-theme=dark] .panel-header{border-radius:11px 11px 0 0}:root[data-theme=dark] .game-mode-card:disabled{opacity:1}:root[data-theme=dark] .game-mode-card:disabled .game-art{opacity:.8}
